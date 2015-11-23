@@ -1,5 +1,6 @@
-__author__ = 'saber'
+# -*- coding: utf-8 -*-
 
-
-DATABASE_HOST = "192.168.1.250"
-DATABASE_NAME = "test"
+DATABASE_HOST = "localhost"
+DATABASE_NAME = "first"
+IMAGE_FOLDER = "G:/image/"
+IMAGE_PATH = "G:/picture/aa.jpg"
