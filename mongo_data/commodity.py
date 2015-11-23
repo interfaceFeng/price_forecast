@@ -18,4 +18,3 @@ class Commodity(Document):
     meta = {
         'indexes': ['index']
     }
-

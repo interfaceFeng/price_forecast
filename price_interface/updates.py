@@ -16,27 +16,11 @@ def update_single():
     ret["err_msg"] = "success"
     try:
         data = json.loads(data)
-        comm = commodity.Commodity.objects(index=data['index']).first()
+        comm = commodity.Commodity.objects(name=data['name']).first()
         if not comm:
             raise IndexError
-        for upda in data['updates']:
-            if upda == 'expect_price':
-                comm.expect_price = data['updates']['expect_price']
-            elif upda == 'name':
-                comm.name = data['updates']['name']
-            elif upda == 'source_id':
-                comm.name = data['updates']['source_id']
-            elif upda == 'price_list':
-                comm.price_list = data['updates']['price_list']
-            elif upda == 'description':
-                comm.description = data['updates']['description']
-            elif upda == 'img_file':
-                comm.img_file = data['updates']['img_file']
-            elif upda == 'commodity_url':
-                comm.commodity_url = data['updates']['commodity_url']
-            elif upda == 'commodity_source':
-                comm.commodity_source = data['updates']['commodity_source']
-        comm.save()
+        comm.update(**data['updates'])
+
     except IndexError:
         ret["err_no"] = 1
         ret["err_msg"] = "can not find data"
@@ -62,27 +46,10 @@ def update_multi():
     try:
         datas = json.loads(datas)
         for data in datas:
-            comm = commodity.Commodity.objects(index=data['index']).first()
+            comm = commodity.Commodity.objects(name=data['name']).first()
             if not comm:
                 raise IndexError
-            for upda in data['updates']:
-                if upda == 'expect_price':
-                    comm.expect_price = data['updates']['expect_price']
-                elif upda == 'name':
-                    comm.name = data['updates']['name']
-                elif upda == 'source_id':
-                    comm.name = data['updates']['source_id']
-                elif upda == 'price_list':
-                    comm.price_list = data['updates']['price_list']
-                elif upda == 'description':
-                    comm.description = data['updates']['description']
-                elif upda == 'img_file':
-                    comm.img_file = data['updates']['img_file']
-                elif upda == 'commodity_url':
-                    comm.commodity_url = data['updates']['commodity_url']
-                elif upda == 'commodity_source':
-                    comm.commodity_source = data['updates']['commodity_source']
-            comm.save()
+            comm.update(**data['updates'])
             count += 1
     except IndexError:
         ret["err_no"] = 1
