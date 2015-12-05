@@ -4,17 +4,17 @@ import config
 import json
 
 data1 = '{"name": "xxx", "description": "xxx", "price_list": {"2015-3-10": 300}, "expect_price": 300, ' \
-        '"source_id": "2", "index": "jd2", ' \
+        '"source_id": "2", ' \
         '"commodity_url": "xxx", "commodity_source": "jd"}'
 
 data2 = '[{"name": "aaa", "description": "xxx", "price_list": {"2015-3-10": 300}, "expect_price": 300, ' \
-        '"source_id": "3", "index": "jd3", ' \
+        '"source_id": "9", ' \
         '"commodity_url": "xxx", "commodity_source": "jd"},'\
         '{"name": "bbb", "description": "xxx", "price_list": {"2015-3-10": 300}, "expect_price": 300, ' \
-        '"source_id": "4", "index": "jd4", ' \
+        '"source_id": "4", ' \
         '"commodity_url": "xxx", "commodity_source": "jd"},'\
         '{"name": "ccc", "description": "xxx", "price_list": {"2015-3-10": 300}, "expect_price": 300, ' \
-        '"source_id": "5", "index": "jd5", ' \
+        '"source_id": "5", ' \
         '"commodity_url": "xxx", "commodity_source": "jd"}]'
 data_update = '{"source_id": "2", "commodity_source": "jd", "updates": {"expect_price": 1000, '\
               '"description": "cool", "price_list": {"2015-3-1": 800}, "commodity_url": "456", '\
@@ -32,18 +32,18 @@ data_updates = '[{"source_id": "3", "commodity_source": "jd", "updates": {"expec
                 '{"source_id": "2", "commodity_source": "tb", "updates": {"expect_price": 1000, '\
                 '"description": "cool", "price_list": {"2015-3-1": 800}, "commodity_url": "456", '\
                 '"name": "wind"}}]'
-# data_download = '{"index": "jd2"}'
-# files = {'file': open(config.IMAGE_PATH, 'rb')}
+data_download = '{"commodity_source": "jd", "source_id": "2"}'
+# files = {'img_file': open(config.IMAGE_PATH, 'rb')}
 # print(files)
 # ret = requests.request("POST", "http://127.0.0.1:5000/upload/single", data=data1)
 # ret2 = requests.request("POST", "http://127.0.0.1:5000/upload/multi", data=data2)
-# ret3 = requests.request("POST", "http://127.0.0.1:5000/upload/imgupload", files=files)
-ret4 = requests.request("POST", "http://127.0.0.1:5000/update/single", data=data_update)
-ret5 = requests.request("POST", "http://127.0.0.1:5000/update/multi", data=data_updates)
-# ret6 = requests.request("POST", "http://127.0.0.1:5000/download/single", data=data_download)
+# ret3 = requests.request("POST", "http://127.0.0.1:5000/upload/imgupload/2/jd", files=files)
+# ret4 = requests.request("POST", "http://127.0.0.1:5000/update/single", data=data_update)
+# ret5 = requests.request("POST", "http://127.0.0.1:5000/update/multi", data=data_updates)
+ret6 = requests.request("POST", "http://127.0.0.1:5000/download/single", data=data_download)
 # print(ret.content)
 # print(ret2.content)
 # print(ret3.content)
-print(ret4.content)
-print(ret5.content)
-# print(ret6.content)
+# print(ret4.content)
+# print(ret5.content)
+print(ret6.content)

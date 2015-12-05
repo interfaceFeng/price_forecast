@@ -20,10 +20,11 @@ def upload_single():
     ret["err_msg"] = "success"
     try:
         data = json.loads(data)
+        index = data["commodity_source"] + data["source_id"]
         comm = commodity.Commodity()
         comm.name = data["name"]
         comm.description = data["description"]
-        comm.index = data["index"]
+        comm.index = index
         comm.price_list = data["price_list"]
         comm.expect_price = data["expect_price"]
         comm.source_id = data["source_id"]
@@ -34,8 +35,11 @@ def upload_single():
         ret["err_no"] = 1
         ret["err_msg"] = "not have key" + str(e)
     except ValueError:
-        ret["err_no"] = 2
+        ret["err_no"] = 1
         ret["err_msg"] = "json data resolve failed"
+    except NotUniqueError:
+        ret["err_no"] = 2
+        ret["err_msg"] = "you must not upload the same information twice"
     return jsonify(ret)
 
 
@@ -44,17 +48,18 @@ def upload_multi():
     count = 0
     datas = request.data.decode("utf-8")
     ret = dict()
-    ret["err_no"] = "success upload count : 0"
-    ret["err_msg"] = "success"
+    ret["err_no"] = 0
+    ret["err_msg"] = "0"
     comms = []
     try:
         datas = json.loads(datas)
         for data in datas:
+            index = data["commodity_source"] + data["source_id"]
             comm = commodity.Commodity()
             comm.name = data["name"]
             comm.description = data["description"]
             comm.price_list = data["price_list"]
-            comm.index = data["index"]
+            comm.index = index
             comm.expect_price = data["expect_price"]
             comm.source_id = data["source_id"]
             comm.commodity_source = data["commodity_source"]
@@ -63,31 +68,39 @@ def upload_multi():
             comms.append(comm)
         commodity.Commodity.objects.insert(doc_or_docs=comms)
     except KeyError as e:
-        ret["err_no"] = "error happen at : " + str(count + 1)
+        ret["err_no"] = 1
         ret["err_msg"] = "not have key" + str(e)
         return jsonify(ret)
     except ValueError:
-        ret["err_no"] = "error happen at : " + str(count + 1)
+        ret["err_no"] = 1
         ret["err_msg"] = "json data resolve failed"
         return jsonify(ret)
-    ret["err_no"] = "success upload count : " + str(count)
+    except NotUniqueError as e:
+        ret["err_no"] = 1
+        ret["err_msg"] = "you must not upload the same information twice, " + str(e)
+        return jsonify(ret)
+    ret["err_msg"] = str(count)
     return jsonify(ret)
 
 
-@upload.route("/upload/imgupload", methods=["POST"])
-def imgupload():
+@upload.route("/upload/imgupload/<source_id>/<commodity_source>", methods=["POST"])
+def imgupload(source_id, commodity_source):
     ret = dict()
     ret["err_no"] = 0
     ret["err_msg"] = "success"
     try:
-        f = request.files['file']
+        f = request.files['img_file']
+        tmp = f.filename.split(".")
+        tmp[0] = source_id
+        f.filename = ".".join(tmp)
+        print(f.filename)
         if not f:
             raise FileNotFoundError
-        fname = secure_filename(f.filename)
         try:
-            f.save(os.path.join(config.IMAGE_FOLDER, fname))
+            fname = secure_filename(f.filename)
+            f.save(os.path.join(config.IMAGE_FOLDER, commodity_source, fname))
         except FileExistsError:
-            ret["err_no"] = 2
+            ret["err_no"] = 1
             ret["err_msg"] = "save this image error"
             return jsonify(ret)
     except FileNotFoundError:

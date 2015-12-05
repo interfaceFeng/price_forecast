@@ -31,8 +31,8 @@ def update_single():
         ret["err_msg"] = "your request is illegal or you have spelled the key wrong"
         return jsonify(ret)
     except ValueError:
-        ret["err_no"] = 2
-        ret["err_msg"] = "update error, check your update information"
+        ret["err_no"] = 1
+        ret["err_msg"] = "json data resolve failed"
         return jsonify(ret)
     return jsonify(ret)
 
@@ -43,7 +43,7 @@ def update_multi():
     count = 0
     ret = dict()
     ret["err_no"] = 0
-    ret["err_msg"] = "success update count:" + str(count)
+    ret["err_msg"] = "success"
     try:
         datas = json.loads(datas)
         for data in datas:
@@ -53,17 +53,17 @@ def update_multi():
                 raise IndexError
             comm.update(**data['updates'])
             count += 1
-    except IndexError:
+    except IndexError as e:
         ret["err_no"] = 1
-        ret["err_msg"] = "can not find data, success update count:" + str(count)
+        ret["err_msg"] = "can not find data: " + str(e)
         return jsonify(ret)
-    except KeyError:
-        ret["err_no"] = 2
-        ret["err_msg"] = "the key wrong, success update count:" + str(count)
+    except KeyError as e:
+        ret["err_no"] = 1
+        ret["err_msg"] = "the key wrong: " + str(e)
         return jsonify(ret)
     except ValueError:
-        ret["err_no"] = 2
-        ret["err_msg"] = "value error, success update count:" + str(count)
+        ret["err_no"] = 1
+        ret["err_msg"] = "json data resolve failed"
         return jsonify(ret)
     ret["err_msg"] = "success update count:" + str(count)
     return jsonify(ret)

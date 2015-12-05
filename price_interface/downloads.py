@@ -17,7 +17,9 @@ def single_download():
     ret = dict()
     try:
         data = json.loads(data)
-        comm = commodity.Commodity.objects(index=data['index']).first()
+        index = data['commodity_source'] + data['source_id']
+        print(index, "\n\n\n")
+        comm = commodity.Commodity.objects(index=index).first()
         ret["name"] = comm.name
         ret["index"] = comm.index
         ret["price_list"] = comm.price_list
