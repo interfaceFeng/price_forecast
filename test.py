@@ -16,20 +16,20 @@ data2 = '[{"name": "aaa", "description": "xxx", "price_list": {"2015-3-10": 300}
         '{"name": "ccc", "description": "xxx", "price_list": {"2015-3-10": 300}, "expect_price": 300, ' \
         '"source_id": "5", "index": "jd5", ' \
         '"commodity_url": "xxx", "commodity_source": "jd"}]'
-data_update = '{"index": "jd2", "updates": {"expect_price": 1000, '\
+data_update = '{"source_id": "2", "commodity_source": "jd", "updates": {"expect_price": 1000, '\
               '"description": "cool", "price_list": {"2015-3-1": 800}, "commodity_url": "456", '\
               '"name": "wind"}}'
 
-data_updates = '[{"index": "jd3", "updates": {"expect_price": 1000, '\
+data_updates = '[{"source_id": "3", "commodity_source": "jd", "updates": {"expect_price": 1000, '\
                 '"description": "cool", "price_list": {"2015-3-1": 800}, "commodity_url": "456", '\
                 '"name": "wind"}}, ' \
-                '{"index": "jd4", "updates": {"expect_price": 900, '\
+                '{"source_id": "4", "commodity_source": "jd", "updates": {"expect_price": 900, '\
                 '"description": "fail", "price_list": {"2015-2-1": 600}, "commodity_url": "hhh", '\
                 '"name": "leaf"}}, ' \
-                '{"index": "jd5", "updates": {"expect_price": 100, '\
+                '{"source_id": "5", "commodity_source": "jd", "updates": {"expect_price": 100, '\
                 '"description": "success", "price_list": {"2015-8-1": 200}, "commodity_url": "4aaa", '\
                 '"name": "flower"}}, ' \
-                '{"index": "tb2", "updates": {"expect_price": 1000, '\
+                '{"source_id": "2", "commodity_source": "tb", "updates": {"expect_price": 1000, '\
                 '"description": "cool", "price_list": {"2015-3-1": 800}, "commodity_url": "456", '\
                 '"name": "wind"}}]'
 # data_download = '{"index": "jd2"}'

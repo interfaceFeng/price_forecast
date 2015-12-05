@@ -16,7 +16,8 @@ def update_single():
     ret["err_msg"] = "success"
     try:
         data = json.loads(data)
-        comm = commodity.Commodity.objects(index=data['index']).first()
+        index = data['commodity_source'] + data['source_id']
+        comm = commodity.Commodity.objects(index=index).first()
         if not comm:
             raise IndexError
         comm.update(**data['updates'])
@@ -46,7 +47,8 @@ def update_multi():
     try:
         datas = json.loads(datas)
         for data in datas:
-            comm = commodity.Commodity.objects(index=data['index']).first()
+            index = data['commodity_source'] + data['source_id']
+            comm = commodity.Commodity.objects(index=index).first()
             if not comm:
                 raise IndexError
             comm.update(**data['updates'])
